@@ -6,7 +6,7 @@
             </a-col>
             <a-col :span="21">
                 <div class="index-video-container">
-                    <transition name="fade" mode="out-in">
+                    <transition :name="schema" mode="out-in">
                         <video-player
                             :key="currentVideoUrl"
                             class="video"
@@ -35,10 +35,12 @@ export default {
             videos: [
                 'test1.mp4',
                 'test2.mp4',
-                'test3.mp4'
+                'test3.mp4',
+                'http://s3hnoo5fc.hn-bkt.clouddn.com/test.mp4?e=1699063377&token=Sb8CA99fxd1AOa4TPhy7GY9T00VpHG8McMGmQe_z:lunBxizHA16Q3PSQv0KDHOJffjY='
                 // 添加更多视频URL
             ],
-            currentIndex: 0
+            currentIndex: 0,
+            schema: 'down'
         }
     },
     computed: {
@@ -58,8 +60,10 @@ export default {
         handleKeyDown(event) {
             if (event.key === 'ArrowUp') {
                 this.showPreviousVideo()
+                this.schema = 'up'
             } else if (event.key === 'ArrowDown') {
                 this.showNextVideo()
+                this.schema = 'down'
             }
         },
         showPreviousVideo() {
@@ -91,15 +95,17 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: translateY(0); /* 初始时平移元素，将视频移出屏幕 */
 }
-
-.fade-enter-active,
-.fade-leave-active {
+.up-leave-active,
+.up-enter-active,
+.down-enter-active,
+.down-leave-active {
     transition: transform 0.5s;
 }
-.fade-enter,
-.fade-leave-to {
+.up-leave-to {
     transform: translateY(100%);
+}
+.down-leave-to {
+    transform: translateY(-100%);
 }
 </style>
